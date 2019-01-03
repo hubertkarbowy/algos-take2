@@ -1,2 +1,6 @@
 donotcommit/*
 materials/*
+Default/
+.settings/
+.cproject
+.project

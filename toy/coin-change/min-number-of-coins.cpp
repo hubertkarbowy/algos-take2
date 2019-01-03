@@ -1,5 +1,6 @@
 #include <iostream>
 #include <limits.h>
+#include <assert.h>
 
 using namespace std;
 
@@ -30,13 +31,34 @@ int minCoins(const int coins[], const int change, int numberOfDenominations) {
    }
    return stepMinima[change];
 }
+
+// Restricted version - with coin values 1, 5 and 10 only
+int minCoins2(const int change) {
+   int remainingChange = change;
+   int usedCoins = 0; int usedTens, usedFives, usedOnes = 0;
+
+   usedTens = change / 10;
+   remainingChange -= 10*usedTens;
+   usedFives = remainingChange / 5;
+   remainingChange -= 5*usedFives;
+   usedOnes = remainingChange / 1;
+   remainingChange -= 1*usedOnes;
+   assert (remainingChange == 0);
+
+   usedCoins = usedTens + usedFives + usedOnes;
+   return usedCoins;
+
+}
  
 int main() {
-    int coins[] =  {1,5,9,10};
+    int coins[] =  {1,5,10};
+    // int coins[] =  {1,5,9,10};
     int change = 27;
     int result = minCoins(coins, change, sizeof(coins)/sizeof(int));
     if (result==INT_MAX) cout << "Cannot change " << change << " into coins with these denominations." << endl;
     else cout << "Minimum # of coins = " << result;
     
+    cout << "Minimum # of coins (greedy) = " << minCoins2(27) << endl;
+
     
 }
